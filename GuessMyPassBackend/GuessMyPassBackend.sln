@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30517.126
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GuessMyPassBackend", "GuessMyPassBackend\GuessMyPassBackend.csproj", "{CEB1655E-2EEE-4394-9B87-9A33203EDDCA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CEB1655E-2EEE-4394-9B87-9A33203EDDCA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CEB1655E-2EEE-4394-9B87-9A33203EDDCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CEB1655E-2EEE-4394-9B87-9A33203EDDCA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CEB1655E-2EEE-4394-9B87-9A33203EDDCA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5955DCF4-8248-460D-ABE4-105115420995}
+	EndGlobalSection
+EndGlobal
