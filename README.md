@@ -29,7 +29,7 @@ POST /user/login
 ```
 {
 "email": "test@test.com",
-"HashedPassword": "1234567890" 
+"hashedPassword": "1234567890" 
 }
 ```
 
@@ -44,7 +44,7 @@ POST /user/register
 ```
 {
 "email": "test@test.com",
-"HashedPassword": "1234567890",
-"Username": "roflanuser",
-"PasswordHelp": "Some shit", 
+"hashedPassword": "1234567890",
+"username": "roflanuser",
+"passwordHelp": "Some shit", 
 }

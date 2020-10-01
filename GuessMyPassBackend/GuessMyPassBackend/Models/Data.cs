@@ -10,12 +10,13 @@ namespace GuessMyPassBackend.Models
     public class Data
     {
 
-        [BsonRepresentation(BsonType.ObjectId)]
-        private string Id { get; set; }
-
+        [BsonId]
+        public ObjectId dbID { get; set; }
+        [BsonElement("name")]
         private string Name {get;set;} = String.Empty;
-
+        [BsonElement("userId")]
         public string UserId { get; set; } = String.Empty;
+
 
     }
 

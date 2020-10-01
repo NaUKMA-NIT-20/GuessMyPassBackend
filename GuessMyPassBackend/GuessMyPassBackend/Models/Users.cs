@@ -15,24 +15,23 @@ namespace GuessMyPassBackend.Models
 
         [BsonId]
         public ObjectId dbID { get; set; }
-        [BsonElement("Id")]
-        public string Id { get; set; }
-        [BsonElement("Email")]
-        public string Email { get; set; }
-        [BsonElement("Username")]
-        public string Username { get; set; } = String.Empty;
-        [BsonElement("HashedPassword")]
-        public string HashedPassword { get; set; } = String.Empty;
-        [BsonElement("Confirmed")]
-        public bool Confirmed { get; set; } = false;
-        [BsonElement("PasswordHelp")]
-        public string PasswordHelp { get; set; } = String.Empty;
-        [BsonElement("CreatedOn")]
-        public DateTime CreatedOn { get; set; } = DateTime.Now;
-        [BsonElement("DataReference")]
-        public List<Data> DataReference { get; set; } = new List<Data>();
+       /* [BsonElement("id")]
+        public string Id { get; set; }*/
         
-
+        [BsonElement("email")]
+        public string Email { get; set; }
+        [BsonElement("username")]
+        public string Username { get; set; } = String.Empty;
+        [BsonElement("hashedPassword")]
+        public string HashedPassword { get; set; } = String.Empty;
+        [BsonElement("confirmed")]
+        public bool Confirmed { get; set; } = false;
+        [BsonElement("passwordHelp")]
+        public string PasswordHelp { get; set; } = String.Empty;
+        [BsonElement("createdOn")]
+        public DateTime CreatedOn { get; set; } = DateTime.Now;
+        [BsonElement("dataReference")]
+        public List<Data> DataReference { get; set; } = new List<Data>();
 
     }
 }
