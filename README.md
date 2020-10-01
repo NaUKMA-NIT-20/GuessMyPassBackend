@@ -47,4 +47,5 @@ POST /user/register
 "hashedPassword": "1234567890",
 "username": "roflanuser",
 "passwordHelp": "Some shit", 
+
 }
