@@ -14,11 +14,11 @@ namespace GuessMyPassBackend.Controllers
     [Route("user")]
     public class UsersController : Controller
     {
-        private readonly IUserRepository userContext;
+        private readonly IUserRepository _userContext;
 
-        public UsersController(IUserRepository _userContext)
+        public UsersController(IUserRepository userContext)
         {
-            userContext = _userContext;
+            _userContext = userContext;
         }
 
        
@@ -26,7 +26,7 @@ namespace GuessMyPassBackend.Controllers
         [Route("login")]
         public User Login([FromBody] User user)
         {
-            user = userContext.GetUser(user.Email, user.HashedPassword);
+            user = _userContext.GetUser(user.Email, user.HashedPassword);
             return user;
         }
 
@@ -34,14 +34,14 @@ namespace GuessMyPassBackend.Controllers
         [Route("register")]
         public ActionResult<bool> Register([FromBody] User user)
         {
-            userContext.CreateUser(user);
+            _userContext.CreateUser(user);
             return true;
         }
 
         [HttpGet]
         public Task<IEnumerable<User>> Get()
         {
-            return userContext.GetAllNotes();
+            return _userContext.GetAllNotes();
         }
     }
 }

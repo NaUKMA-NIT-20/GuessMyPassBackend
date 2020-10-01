@@ -14,7 +14,7 @@ namespace GuessMyPassBackend.Models
     {
 
         [BsonId]
-        public ObjectId dbID { get; set; }
+        public ObjectId DbId { get; set; }
        /* [BsonElement("id")]
         public string Id { get; set; }*/
         
