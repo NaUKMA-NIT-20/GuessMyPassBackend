@@ -24,9 +24,9 @@ namespace GuessMyPassBackend.Controllers
             return await _context.Users.Find(a => true).ToListAsync(); 
         }
 
-        public void CreateUser(User user)
+        public string CreateUser(User user)
         {
-            _context.CreateUser(user);
+            return _context.CreateUser(user);
         }
 
         public User GetUser(string email, string password)

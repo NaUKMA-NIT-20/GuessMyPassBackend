@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using System.Threading.Tasks;
+using MongoDB.Bson.IO;
 
 namespace GuessMyPassBackend.Controllers
 {
@@ -39,10 +40,9 @@ namespace GuessMyPassBackend.Controllers
 
         [HttpPost]
         [Route("register")]
-        public ActionResult<bool> Register([FromBody] User user)
+        public ActionResult<string> Register([FromBody] User user)
         {
-            _userContext.CreateUser(user);
-            return true;
+            return _userContext.CreateUser(user);
         }
 
         [HttpGet]

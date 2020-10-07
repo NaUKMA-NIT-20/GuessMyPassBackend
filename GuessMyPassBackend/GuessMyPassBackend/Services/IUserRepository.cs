@@ -10,7 +10,7 @@ namespace GuessMyPassBackend.Services
     public interface IUserRepository
     {
         Task<IEnumerable<User>> GetAllNotes();
-        void CreateUser(User user);
+        string CreateUser(User user);
 
         User GetUser(string username, string password);
     }

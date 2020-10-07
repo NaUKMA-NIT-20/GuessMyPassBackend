@@ -30,12 +30,18 @@ namespace GuessMyPassBackend
             }
         }
 
-        public void CreateUser(User user)
+        public string CreateUser(User user)
         {
-            if (user == null) return;
+            string errorToReturn = "Empty request";
+            string errorToReturn1 = "Wrong request. User already exists";
 
+            string userCreated = "User was created";
+
+            if (user == null) return errorToReturn;
+            if (!CanCreateUser(user.Username, user.Email)) return errorToReturn1;
 
             _database.GetCollection<User>(users).InsertOne(user);
+            return userCreated;
         }
 
         public User GetUser(string email, string password)
@@ -53,10 +59,19 @@ namespace GuessMyPassBackend
             return returnUser;
         }
 
-        /*public bool CanCreateUsert(string username)
+        public bool CanCreateUser(string username, string email)
         {
-            
-        }*/
+            User returnUser;
+            try
+            {
+                returnUser = _database.GetCollection<User>("users").Find(a => a.Username == username && a.Email == email).First();
+            }
+            catch (System.InvalidOperationException)
+            {
+                return true;
+            }
+            return false;
+        }
 
     }
 }
