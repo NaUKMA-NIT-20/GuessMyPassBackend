@@ -33,14 +33,30 @@ namespace GuessMyPassBackend
         public void CreateUser(User user)
         {
             if (user == null) return;
+
+
             _database.GetCollection<User>(users).InsertOne(user);
         }
 
         public User GetUser(string email, string password)
         {
-            // Check for password or login are valid
-            return _database.GetCollection<User>("users").Find(a => a.HashedPassword == password && a.Email == email).First();
+            User returnUser;
+            try
+            {
+                returnUser = _database.GetCollection<User>("users").Find(a => a.HashedPassword == password && a.Email == email).First();
+            }
+            catch (System.InvalidOperationException)
+            {
+                return null;
+            }
+
+            return returnUser;
         }
+
+        /*public bool CanCreateUsert(string username)
+        {
+            
+        }*/
 
     }
 }

@@ -21,7 +21,14 @@ namespace GuessMyPassBackend.Controllers
             _userContext = userContext;
         }
 
-       
+        [HttpGet]
+        [Route("test")]
+        public String Login()
+        {
+            return "Izi dla menia. Ludshiu v mire za rabotoi";
+        }
+
+
         [HttpPost]
         [Route("login")]
         public User Login([FromBody] User user)
