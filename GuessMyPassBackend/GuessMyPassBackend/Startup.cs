@@ -36,7 +36,7 @@ namespace GuessMyPassBackend
 
             services.Configure<Settings>(options =>
             {
-                options.ConnectionString = "mongodb+srv://youngrake:Perec324@cluster0.25l2f.azure.mongodb.net/guess-my-pass?retryWrites=true&w=majority";
+                options.ConnectionString = "mongodb+srv://guessMyPass:RoflanUser904@cluster0.25l2f.azure.mongodb.net/guess-my-pass?retryWrites=true&w=majority";
                 options.Database = "guess-my-pass";
             });
 
