@@ -31,7 +31,7 @@ namespace GuessMyPassBackend
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc(option => option.EnableEndpointRouting = false);
-
+           services.AddCors();
             services.AddTransient<IUserRepository, Controllers.UserRepository>();
 
             services.Configure<Settings>(options =>
@@ -57,6 +57,9 @@ namespace GuessMyPassBackend
             app.UseHttpsRedirection();
 
             app.UseMvc();
+
+            app.UseCors(builder => builder.AllowAnyOrigin());
+
         }
     }
 }
