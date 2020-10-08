@@ -40,6 +40,7 @@ namespace GuessMyPassBackend
                 options.Database = System.Environment.GetEnvironmentVariable("DB_NAME");
             });
 
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -54,11 +55,13 @@ namespace GuessMyPassBackend
                 app.UseHsts();
             }
 
+            app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+
             app.UseHttpsRedirection();
 
             app.UseMvc();
 
-            app.UseCors(builder => builder.AllowAnyOrigin());
+            
 
         }
     }
