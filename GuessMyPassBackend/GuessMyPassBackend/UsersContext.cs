@@ -37,7 +37,7 @@ namespace GuessMyPassBackend
 
             string userCreated = "User was created";
 
-            if (user == null) return errorToReturn;
+            if (user.Username.Length == 0 || user.HashedPassword.Length == 0 || user.Email.Length == 0) return errorToReturn;
             if (!CanCreateUser(user.Username, user.Email)) return errorToReturn1;
 
             _database.GetCollection<User>(users).InsertOne(user);
@@ -64,7 +64,7 @@ namespace GuessMyPassBackend
             User returnUser;
             try
             {
-                returnUser = _database.GetCollection<User>("users").Find(a => a.Username == username && a.Email == email).First();
+                returnUser = _database.GetCollection<User>("users").Find(a => a.Username == username || a.Email == email).First();
             }
             catch (System.InvalidOperationException)
             {
