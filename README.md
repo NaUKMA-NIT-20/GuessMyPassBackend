@@ -11,13 +11,6 @@
 
 ## Routes
 
-
-### Get all users
-
-```bash
-GET /user/
-```
-
 ### Login
 
 
@@ -29,7 +22,7 @@ POST /user/login
 ```
 {
 "email": "test@gmail.com",
-"hashedPassword": "da ya i sho" 
+"password": "12345678" 
 }
 ```
 
@@ -46,11 +39,9 @@ POST /user/login
     },
     "email": "test@gmail.com",
     "username": "daunych",
-    "hashedPassword": "da ya i sho",
-    "confirmed": false,
+    "password": "djaksdkaskdjaksjdksa312312312",
     "passwordHelp": "Asarann dodik",
-    "createdOn": "2020-09-30T21:40:41.747Z",
-    "dataReference": []
+    "createdOn": "2020-09-30T21:40:41.747Z"
 }
 ```
 
@@ -64,7 +55,7 @@ POST /user/register
 ```
 {
 "email": "test@test.com",
-"hashedPassword": "1234567890",
+"password": "1234567890",
 "username": "roflanuser",
 "passwordHelp": "Some shit"
 }
@@ -73,7 +64,7 @@ POST /user/register
 #### Response example ** : 
 
 ```
-true / false                
+"User created"               
 ```
 
 ** - possible changes in future
