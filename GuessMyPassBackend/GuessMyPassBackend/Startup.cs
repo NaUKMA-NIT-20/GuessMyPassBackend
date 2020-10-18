@@ -36,9 +36,13 @@ namespace GuessMyPassBackend
 
             services.Configure<Settings>(options =>
             {
-                options.ConnectionString = System.Environment.GetEnvironmentVariable("MONGODB_URL");
+                /*options.ConnectionString = System.Environment.GetEnvironmentVariable("MONGODB_URL");
                 options.Database = System.Environment.GetEnvironmentVariable("DB_NAME");
                 options.JWT_SECRET = System.Environment.GetEnvironmentVariable("JWT_SECRET");
+                 */
+                options.ConnectionString = "mongodb+srv://guessMyPass:RoflanUser904@cluster0.25l2f.azure.mongodb.net/guess-my-pass?retryWrites=true&w=majority";
+                options.Database = "guess-my-pass";
+                options.JWT_SECRET = "jwt_secret da da";
             });
 
         }

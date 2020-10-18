@@ -7,7 +7,9 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using System; 
+using System;
+using BC = BCrypt.Net.BCrypt;
+
 
 namespace GuessMyPassBackend
 {
@@ -47,6 +49,8 @@ namespace GuessMyPassBackend
             if (user.Username.Length == 0 || user.Password.Length == 0 || user.Email.Length == 0) return errorToReturn;
             if (!CanCreateUser(user.Username, user.Email)) return errorToReturn1;
 
+            user.Password = BC.HashPassword(user.Password);
+
             _database.GetCollection<User>(users).InsertOne(user);
             return userCreated;
         }
@@ -56,7 +60,10 @@ namespace GuessMyPassBackend
             AuthedUser returnUser;
             try
             {
-                returnUser = _database.GetCollection<AuthedUser>("users").Find(a => a.Password == password && a.Email == email).First();
+                returnUser = _database.GetCollection<AuthedUser>("users").Find(a => a.Email == email).First();
+
+                if (password == null || !BC.Verify(password, returnUser.Password)) throw new System.InvalidOperationException();
+
                 returnUser.Token = generateJwtToken(returnUser.Username, returnUser.Email);
             }
             catch (System.InvalidOperationException)
