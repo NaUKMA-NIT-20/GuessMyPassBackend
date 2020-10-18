@@ -29,9 +29,9 @@ namespace GuessMyPassBackend.Controllers
             return _context.CreateUser(user);
         }
 
-        public User GetUser(string email, string password)
+        public AuthedUser Login(string email, string password)
         {
-            return _context.GetUser(email, password);
+            return _context.Login(email, password);
         }
     }
 }
