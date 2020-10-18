@@ -9,5 +9,6 @@ namespace GuessMyPassBackend.Models
     {
         public string ConnectionString;
         public string Database;
+        public string JWT_SECRET;
     }
 }

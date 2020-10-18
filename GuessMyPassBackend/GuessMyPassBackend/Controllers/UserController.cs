@@ -32,9 +32,11 @@ namespace GuessMyPassBackend.Controllers
 
         [HttpPost]
         [Route("login")]
-        public ActionResult Login([FromBody] User user)
+        public ActionResult Login([FromBody] AuthenticateRequest userFromRequest)
         {
-            user = _userContext.GetUser(user.Email, user.HashedPassword);
+            AuthedUser user = null;
+
+            user = _userContext.Login(userFromRequest.Email, userFromRequest.Password);
 
             if (user == null)
             {

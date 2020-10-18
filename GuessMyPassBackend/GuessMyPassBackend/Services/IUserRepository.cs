@@ -12,6 +12,6 @@ namespace GuessMyPassBackend.Services
         Task<IEnumerable<User>> GetAllNotes();
         string CreateUser(User user);
 
-        User GetUser(string username, string password);
+        AuthedUser Login(string username, string password);
     }
 }

@@ -38,6 +38,7 @@ namespace GuessMyPassBackend
             {
                 options.ConnectionString = System.Environment.GetEnvironmentVariable("MONGODB_URL");
                 options.Database = System.Environment.GetEnvironmentVariable("DB_NAME");
+                options.JWT_SECRET = System.Environment.GetEnvironmentVariable("JWT_SECRET");
             });
 
         }
