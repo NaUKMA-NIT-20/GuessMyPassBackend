@@ -10,7 +10,10 @@ namespace GuessMyPassBackend.Models
     public class Data
     {
         [BsonId]
-        public ObjectId DbId { get; set; }
+        private ObjectId DbId { get; set; }
+        [BsonElement("owner")]
+        private string Owner { get; set; } = String.Empty;
+
         [BsonElement("name")]
         private string Name {get;set;} = String.Empty;
         [BsonElement("type")]
@@ -26,8 +29,7 @@ namespace GuessMyPassBackend.Models
         [BsonElement("cvv")]
         public string CVV { get; set; } = String.Empty;
 
-        [BsonElement("owner")]
-        private string Owner { get; set; } = String.Empty;
+        
     }
 
 
