@@ -26,7 +26,7 @@ namespace GuessMyPassBackend.Models
         [BsonElement("cvv")]
         public string CVV { get; set; } = String.Empty;
 
-        [BsonElement("Owner")]
+        [BsonElement("owner")]
         private string Owner { get; set; } = String.Empty;
     }
 
