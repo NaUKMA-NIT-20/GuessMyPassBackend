@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using GuessMyPassBackend.Middlewares;
 using GuessMyPassBackend.Models;
 using GuessMyPassBackend.Services;
 using Microsoft.AspNetCore.Builder;
@@ -31,8 +32,10 @@ namespace GuessMyPassBackend
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc(option => option.EnableEndpointRouting = false);
-           services.AddCors();
-            services.AddTransient<IUserRepository, Controllers.UserRepository>();
+            services.AddCors();
+            
+            // services.AddTransient<IUserRepository, Controllers.UserRepository>();
+             services.AddScoped<IUserRepository, Controllers.UserRepository>();
 
             services.Configure<Settings>(options =>
             {
@@ -45,7 +48,7 @@ namespace GuessMyPassBackend
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {
+        { 
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -55,14 +58,17 @@ namespace GuessMyPassBackend
                 app.UseHsts();
             }
 
+            app.UseMiddleware(typeof(AuthMiddleware));
+
             app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+
 
             app.UseHttpsRedirection();
 
             app.UseMvc();
 
-            
 
         }
+
     }
 }
