@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using GuessMyPassBackend.Models;
 using GuessMyPassBackend.Services;
 using Microsoft.AspNetCore.Mvc;
-using MongoDB.Bson;
-using MongoDB.Driver;
 using System.Threading.Tasks;
-using MongoDB.Bson.IO;
+
 
 namespace GuessMyPassBackend.Controllers
 {
@@ -22,6 +19,8 @@ namespace GuessMyPassBackend.Controllers
             _userContext = userContext;
         }
 
+
+        // /user/test
         [HttpGet]
         [Route("test")]
         public String Login()
@@ -29,7 +28,8 @@ namespace GuessMyPassBackend.Controllers
             return "Izi dla menia. Ludshiu v mire za rabotoi";
         }
 
-
+        
+        // /user/login
         [HttpPost]
         [Route("login")]
         public ActionResult Login([FromBody] AuthenticateRequest userFromRequest)
@@ -47,6 +47,8 @@ namespace GuessMyPassBackend.Controllers
             return Ok(user);
         }
 
+
+        // /user/register
         [HttpPost]
         [Route("register")]
         public ActionResult<string> Register([FromBody] User user)
@@ -54,10 +56,5 @@ namespace GuessMyPassBackend.Controllers
             return _userContext.CreateUser(user);
         }
 
-        [HttpGet]
-        public Task<IEnumerable<User>> Get()
-        {
-            return _userContext.GetAllNotes();
-        }
     }
 }

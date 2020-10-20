@@ -7,10 +7,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GuessMyPassBackend.Services
 {
-    public interface IUserRepository
+    public interface IDataRepository
     {
-        string CreateUser(User user);
-
-        AuthedUser Login(string username, string password);
+        List<Data> GetAllData(string token);
+        Data CreateData(Data data, string token);
+        Data UpdateData(Data data);
     }
 }

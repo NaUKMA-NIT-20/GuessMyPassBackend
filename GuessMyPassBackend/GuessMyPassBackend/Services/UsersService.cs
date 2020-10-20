@@ -13,14 +13,15 @@ using BC = BCrypt.Net.BCrypt;
 
 namespace GuessMyPassBackend
 {
-    public class UsersContext
+   
+    public class UsersService
     {
         private readonly IMongoDatabase _database = null;
 
         private string users = "users";
 
         private string jwtSecret = null;
-        public UsersContext(IOptions<Settings> settings)
+        public UsersService(IOptions<Settings> settings)
         {
             jwtSecret = settings.Value.JWT_SECRET;
             var client = new MongoClient(settings.Value.ConnectionString);
@@ -31,14 +32,7 @@ namespace GuessMyPassBackend
                 
         }
 
-        public IMongoCollection<User> Users
-        {
-            get
-            {
-                return _database.GetCollection<User>("users");
-            }
-        }
-
+        // add user to db
         public string CreateUser(User user)
         {
             string errorToReturn = "Empty request";
@@ -55,12 +49,15 @@ namespace GuessMyPassBackend
             return userCreated;
         }
 
+        // check if user exists and return AuthedUser instance
         public AuthedUser Login(string email, string password)
         {
             AuthedUser returnUser;
             try
             {
                 returnUser = _database.GetCollection<AuthedUser>("users").Find(a => a.Email == email).First();
+
+                // verify password from request and db
 
                 if (password == null || !BC.Verify(password, returnUser.Password)) throw new System.InvalidOperationException();
 
@@ -74,21 +71,28 @@ namespace GuessMyPassBackend
             return returnUser;
         }
 
+        // generate token that will be valid for 7 days
         private string generateJwtToken(string username, string email)
         {
-            // generate token that is valid for 7 days
+
             JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
             byte[] key = Encoding.ASCII.GetBytes(jwtSecret);
 
             SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
             {
+
+                // decode payload ( username, email )
+
                 Subject = new ClaimsIdentity(new[] { new Claim("username", username), new Claim("email", email) }),
                 Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
-            var token = tokenHandler.CreateToken(tokenDescriptor);
+            SecurityToken token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
         }
+
+
+        // check if user can be created ( find occurrences in db )
 
         public bool CanCreateUser(string username, string email)
         {

@@ -11,12 +11,31 @@ namespace GuessMyPassBackend.Models
     {
 
         [BsonId]
-        public ObjectId DbId { get; set; }
-        [BsonElement("name")]
-        private string Name {get;set;} = String.Empty;
-        [BsonElement("userId")]
-        public string UserId { get; set; } = String.Empty;
+        public ObjectId DbId { get; }
 
+        [BsonElement("owner")]
+        public string Owner { get; set; } = String.Empty;
+
+        [BsonElement("name")]
+        public string Name { get; set; } = String.Empty;
+
+        [BsonElement("type")]
+        private Type Type { get; set; } = Type.NONE;
+
+        [BsonElement("url")]
+        public string Url { get; set; } = String.Empty;
+
+        [BsonElement("notes")]
+        public string Notes { get; set; } = String.Empty;
+
+        [BsonElement("cardholderName")]
+        public string CardholderName { get; set; } = String.Empty;
+
+        [BsonElement("number")]
+        public string Number { get; set; } = String.Empty;
+
+        [BsonElement("cvv")]
+        public string CVV { get; set; } = String.Empty;
 
     }
 
@@ -25,7 +44,8 @@ namespace GuessMyPassBackend.Models
     {
         ACCOUNT,
         CREDITCARD,
-        NOTE
+        NOTE,
+        NONE
     }
 
 }

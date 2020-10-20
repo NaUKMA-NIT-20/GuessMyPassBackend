@@ -26,8 +26,8 @@ namespace GuessMyPassBackend.Middlewares
             _appSettings = appSettings.Value;
         }
 
-        public async Task Invoke(HttpContext context, IUserRepository userRepository)
-        {
+        public async Task Invoke(HttpContext context)
+        { 
 
             if(context.Request.Path.Equals("/user/login") || context.Request.Path.Equals("/user/register"))
             {
@@ -39,18 +39,25 @@ namespace GuessMyPassBackend.Middlewares
 
                 if (token != null)
                 {
-                    isValid = ValidateJwt(context, userRepository, token);
+                    isValid = ValidateJwt(context, token);
                 }
 
 
 
-                if (!isValid) await context.Response.WriteAsync("No Auth");
+                if (!isValid)
+                {
+                    await context.Response.WriteAsync("No Authorization");
+                    return;
+                }
+
+
+                context.Items.Add("token", token);
 
                 await _next(context);
             }
         }
 
-        private bool ValidateJwt(HttpContext context, IUserRepository userRepository, string token)
+        private bool ValidateJwt(HttpContext context, string token)
         {
             try
             {
