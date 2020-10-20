@@ -31,14 +31,10 @@ namespace GuessMyPassBackend.Controllers
         }
 
         [HttpPut]
-        public ActionResult UpdateData([FromBody] Data data)
+        public Task<Data> UpdateData([FromBody] Data data)
         {
 
-            Data newData;
-
-            newData = _datacontext.UpdateData(data);
-
-            return Ok(newData);
+            return _datacontext.UpdateData(data);
 
         }
 

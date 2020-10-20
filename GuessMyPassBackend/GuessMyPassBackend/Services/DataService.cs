@@ -49,12 +49,13 @@ namespace GuessMyPassBackend.Services
             return data;
         }
 
-        public Data UpdateData(Data data)
+        public async Task<Data> UpdateData(Data data)
         {
-            // FilterDefinition<Data> filter = Builders<Data>.Filter.Eq<Object>(_database.GetCollection<Data>("data").Find<Data>(d => d.DbId.ToString() == data.DbId.ToString()).First(), data.DbId);
-
-            return null;
-
+            ObjectId line = ObjectId.Parse(data.id);
+            FilterDefinition<Data> filter = Builders<Data>.Filter.Eq<Object>("_id", ObjectId.Parse(data.id));
+            UpdateDefinition<Data> update = Builders<Data>.Update.Set("name", data.Name);
+            return await _database.GetCollection<Data>("data").FindOneAndUpdateAsync<Data>(filter, update);
+            // ToDo: Return updated data
         }
 
         private string DecodeJwtEmail(string tokenString)

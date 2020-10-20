@@ -13,6 +13,8 @@ namespace GuessMyPassBackend.Models
         [BsonId]
         public ObjectId DbId { get; }
 
+        public string id { get; set;} = String.Empty;
+
         [BsonElement("owner")]
         public string Owner { get; set; } = String.Empty;
 
@@ -36,7 +38,6 @@ namespace GuessMyPassBackend.Models
 
         [BsonElement("cvv")]
         public string CVV { get; set; } = String.Empty;
-
     }
 
 
