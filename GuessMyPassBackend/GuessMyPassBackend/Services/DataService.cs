@@ -11,6 +11,7 @@ using MongoDB.Bson.Serialization;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
+using System.Reflection.Metadata;
 
 namespace GuessMyPassBackend.Services
 {
@@ -43,19 +44,28 @@ namespace GuessMyPassBackend.Services
             string decoded = DecodeJwtEmail(token);
 
             data.Owner = decoded;
-
+            data.id = data._id.ToString();
             _database.GetCollection<Data>("data").InsertOne(data);
 
             return data;
         }
 
-        public async Task<Data> UpdateData(Data data)
+        public Data UpdateData(Data data)
         {
-            ObjectId line = ObjectId.Parse(data.id);
-            FilterDefinition<Data> filter = Builders<Data>.Filter.Eq<Object>("_id", ObjectId.Parse(data.id));
-            UpdateDefinition<Data> update = Builders<Data>.Update.Set("name", data.Name);
-            return await _database.GetCollection<Data>("data").FindOneAndUpdateAsync<Data>(filter, update);
-            // ToDo: Return updated data
+            
+            FilterDefinition<Data> filter = Builders<Data>.Filter.Eq("id", data.id);
+            
+            UpdateDefinition<Data> update = Builders<Data>.Update
+                .Set("name", data.Name)
+                .Set("url", data.Url)
+                .Set("notes", data.Notes)
+                .Set("cardholderName", data.CardholderName)
+                .Set("number", data.Number)
+                .Set("cvv", data.CVV);
+
+
+            return _database.GetCollection<Data>("data").FindOneAndUpdate<Data>(filter, update, new FindOneAndUpdateOptions<Data> { ReturnDocument = ReturnDocument.After });
+            
         }
 
         private string DecodeJwtEmail(string tokenString)

@@ -11,6 +11,6 @@ namespace GuessMyPassBackend.Services
     {
         List<Data> GetAllData(string token);
         Data CreateData(Data data, string token);
-        Task<Data> UpdateData(Data data);
+        Data UpdateData(Data data);
     }
 }

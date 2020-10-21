@@ -27,15 +27,22 @@ namespace GuessMyPassBackend.Controllers
 
                 string token = HttpContext.Request.Headers["Authorization"];
                 newData = _datacontext.CreateData(data, token); 
+
                 return Ok(newData);
         }
 
         [HttpPut]
-        public Task<Data> UpdateData([FromBody] Data data)
+        public ActionResult UpdateData([FromBody] Data data)
         {
 
-            return _datacontext.UpdateData(data);
+            Data updatedData = _datacontext.UpdateData(data);
 
+            if(updatedData == null)
+            {
+                return BadRequest("Wrong data");
+            }
+
+            return Ok(updatedData);
         }
 
 

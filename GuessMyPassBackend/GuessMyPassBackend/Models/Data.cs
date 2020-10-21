@@ -11,8 +11,9 @@ namespace GuessMyPassBackend.Models
     {
 
         [BsonId]
-        public ObjectId DbId { get; }
+        public ObjectId _id { get; set; }
 
+        [BsonElement("id")]
         public string id { get; set;} = String.Empty;
 
         [BsonElement("owner")]
@@ -38,7 +39,14 @@ namespace GuessMyPassBackend.Models
 
         [BsonElement("cvv")]
         public string CVV { get; set; } = String.Empty;
+
+        public Data()
+        {
+            _id = ObjectId.GenerateNewId();
+        }
+
     }
+
 
 
     enum Type 

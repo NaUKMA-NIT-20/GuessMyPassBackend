@@ -28,7 +28,7 @@ namespace GuessMyPassBackend.Controllers
             return _service.CreateData(data, token);
         }
 
-        public Task<Data> UpdateData(Data data)
+        public Data UpdateData(Data data)
         {
             return _service.UpdateData(data);
         }

@@ -4,7 +4,11 @@ using GuessMyPassBackend.Models;
 using GuessMyPassBackend.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-
+using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using MongoDB.Bson;
+using System.Text.Json;
 
 namespace GuessMyPassBackend.Controllers
 {
@@ -55,6 +59,20 @@ namespace GuessMyPassBackend.Controllers
         {
             return _userContext.CreateUser(user);
         }
+        // /user/options/password
+        [HttpPut]
+        [Route("options/password")]
+        public ActionResult UpdatePassword([FromBody] PasswordRestartRequest requestBody)
+        {
+            string message = _userContext.UpdatePassword(requestBody, HttpContext.Request.Headers["Authorization"]);
 
+            if(message == null)
+            {
+                return BadRequest("Wrong Password");
+            }
+
+            return Ok(message);
+
+        }
     }
 }
