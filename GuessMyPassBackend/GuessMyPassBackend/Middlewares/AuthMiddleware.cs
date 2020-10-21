@@ -46,6 +46,7 @@ namespace GuessMyPassBackend.Middlewares
 
                 if (!isValid)
                 {
+                    context.Response.StatusCode = 401;
                     await context.Response.WriteAsync("No Authorization");
                     return;
                 }
