@@ -28,18 +28,12 @@ POST /user/login
 
 ```
 {
-    "dbId": {
-        "timestamp": 1601502042,
-        "machine": 12066299,
-        "pid": 9316,
-        "increment": 1790873,
-        "creationTime": "2020-09-30T21:40:42Z"
-    },
-    "email": "test@gmail.com",
-    "username": "daunych",
-    "password": "djaksdkaskdjaksjdksa312312312",
-    "passwordHelp": "Asarann dodik",
-    "createdOn": "2020-09-30T21:40:41.747Z"
+    "email": "test2@test.com",
+    "username": "test2",
+    "password": "$2a$11$RMAujxDZaDz1912Ej2DD5uy0SaS5JycG3SimlpWc6Oi9206URIJ7u",
+    "passwordHelp": "",
+    "createdOn": "2020-10-18T10:40:41.567Z",
+    "token": "token"
 }
 ```
 
