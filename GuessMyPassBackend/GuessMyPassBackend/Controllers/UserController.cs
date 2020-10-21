@@ -55,10 +55,20 @@ namespace GuessMyPassBackend.Controllers
         // /user/register
         [HttpPost]
         [Route("register")]
-        public ActionResult<string> Register([FromBody] User user)
+        public ActionResult Register([FromBody] User user)
         {
-            return _userContext.CreateUser(user);
+
+            string message = _userContext.CreateUser(user);
+
+            if (!message.Equals("User was created"))
+            {
+                return BadRequest(message);
+            }
+
+            return Ok(message);
         }
+
+
         // /user/options/password
         [HttpPut]
         [Route("options/password")]
