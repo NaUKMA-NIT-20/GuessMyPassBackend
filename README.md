@@ -1,7 +1,5 @@
 # GuessMyPassBackend
 
-![](https://github.com/NaUKMA-NIT-20/GuessMyPass/blob/Backend-3/GuessMyPassBackend/Img/123414.jpg)
-
 
 ## Stack
 
@@ -10,13 +8,6 @@
 
 
 ## Routes
-
-
-### Get all users
-
-```bash
-GET /user/
-```
 
 ### Login
 
@@ -29,7 +20,7 @@ POST /user/login
 ```
 {
 "email": "test@gmail.com",
-"hashedPassword": "da ya i sho" 
+"password": "12345678" 
 }
 ```
 
@@ -37,20 +28,12 @@ POST /user/login
 
 ```
 {
-    "dbId": {
-        "timestamp": 1601502042,
-        "machine": 12066299,
-        "pid": 9316,
-        "increment": 1790873,
-        "creationTime": "2020-09-30T21:40:42Z"
-    },
-    "email": "test@gmail.com",
-    "username": "daunych",
-    "hashedPassword": "da ya i sho",
-    "confirmed": false,
-    "passwordHelp": "Asarann dodik",
-    "createdOn": "2020-09-30T21:40:41.747Z",
-    "dataReference": []
+    "email": "test2@test.com",
+    "username": "test2",
+    "password": "$2a$11$RMAujxDZaDz1912Ej2DD5uy0SaS5JycG3SimlpWc6Oi9206URIJ7u",
+    "passwordHelp": "",
+    "createdOn": "2020-10-18T10:40:41.567Z",
+    "token": "token"
 }
 ```
 
@@ -64,7 +47,7 @@ POST /user/register
 ```
 {
 "email": "test@test.com",
-"hashedPassword": "1234567890",
+"password": "1234567890",
 "username": "roflanuser",
 "passwordHelp": "Some shit"
 }
@@ -73,7 +56,7 @@ POST /user/register
 #### Response example ** : 
 
 ```
-true / false                
+"User created"               
 ```
 
 ** - possible changes in future
