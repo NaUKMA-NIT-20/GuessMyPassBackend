@@ -12,7 +12,6 @@ using BC = BCrypt.Net.BCrypt;
 using System.Linq;
 
 
-
 namespace GuessMyPassBackend
 {
    

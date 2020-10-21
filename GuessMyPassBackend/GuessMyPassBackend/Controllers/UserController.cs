@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using GuessMyPassBackend.Models;
 using GuessMyPassBackend.Services;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using MongoDB.Bson;
-using System.Text.Json;
+
 
 namespace GuessMyPassBackend.Controllers
 {

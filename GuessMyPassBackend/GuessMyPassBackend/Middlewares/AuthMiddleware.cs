@@ -1,8 +1,5 @@
-﻿using GuessMyPassBackend.Controllers;
-using GuessMyPassBackend.Models;
-using GuessMyPassBackend.Services;
+﻿using GuessMyPassBackend.Models;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -10,7 +7,6 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 
 
 namespace GuessMyPassBackend.Middlewares

@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using GuessMyPassBackend.Models;
+﻿using GuessMyPassBackend.Models;
 using GuessMyPassBackend.Services;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using MongoDB.Driver;
+
 
 namespace GuessMyPassBackend.Controllers
 {
