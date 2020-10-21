@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
-
 
 
 namespace GuessMyPassBackend.Models
@@ -14,7 +9,9 @@ namespace GuessMyPassBackend.Models
     {
 
         [BsonId]
-        private ObjectId DbId { get; set; }
+        public ObjectId DbId { get; set; }
+       /* [BsonElement("id")]
+        public string Id { get; set; }*/
         
         [BsonElement("email")]
         public string Email { get; set; }
