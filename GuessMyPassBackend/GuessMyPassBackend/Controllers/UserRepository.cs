@@ -12,26 +12,27 @@ namespace GuessMyPassBackend.Controllers
 {
     public class UserRepository : IUserRepository
     {
-        private readonly UsersContext _context = null;
+        private readonly UsersService _service = null;
 
         public UserRepository(IOptions<Settings> settings)
         {
-            _context = new UsersContext(settings);
-        }
-
-        public async Task<IEnumerable<User>> GetAllNotes()
-        {
-            return await _context.Users.Find(a => true).ToListAsync(); 
+            _service = new UsersService(settings);
         }
 
         public string CreateUser(User user)
         {
-            return _context.CreateUser(user);
+            return _service.CreateUser(user);
         }
 
         public AuthedUser Login(string email, string password)
         {
-            return _context.Login(email, password);
+            return _service.Login(email, password);
         }
+
+        public string UpdatePassword(PasswordRestartRequest requestBody, string token)
+        {
+            return _service.UpdatePassword(requestBody, token);
+        }
+
     }
 }

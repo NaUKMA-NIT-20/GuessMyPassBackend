@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using GuessMyPassBackend.Models;
 using GuessMyPassBackend.Services;
 using Microsoft.AspNetCore.Mvc;
-using MongoDB.Bson;
-using MongoDB.Driver;
 using System.Threading.Tasks;
-using MongoDB.Bson.IO;
+using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using MongoDB.Bson;
+using System.Text.Json;
 
 namespace GuessMyPassBackend.Controllers
 {
@@ -22,6 +23,8 @@ namespace GuessMyPassBackend.Controllers
             _userContext = userContext;
         }
 
+
+        // /user/test
         [HttpGet]
         [Route("test")]
         public String Login()
@@ -29,7 +32,8 @@ namespace GuessMyPassBackend.Controllers
             return "Izi dla menia. Ludshiu v mire za rabotoi";
         }
 
-
+        
+        // /user/login
         [HttpPost]
         [Route("login")]
         public ActionResult Login([FromBody] AuthenticateRequest userFromRequest)
@@ -47,17 +51,38 @@ namespace GuessMyPassBackend.Controllers
             return Ok(user);
         }
 
+
+        // /user/register
         [HttpPost]
         [Route("register")]
-        public ActionResult<string> Register([FromBody] User user)
+        public ActionResult Register([FromBody] User user)
         {
-            return _userContext.CreateUser(user);
+
+            string message = _userContext.CreateUser(user);
+
+            if (!message.Equals("User was created"))
+            {
+                return BadRequest(message);
+            }
+
+            return Ok(message);
         }
 
-        [HttpGet]
-        public Task<IEnumerable<User>> Get()
+
+        // /user/options/password
+        [HttpPut]
+        [Route("options/password")]
+        public ActionResult UpdatePassword([FromBody] PasswordRestartRequest requestBody)
         {
-            return _userContext.GetAllNotes();
+            string message = _userContext.UpdatePassword(requestBody, HttpContext.Request.Headers["Authorization"]);
+
+            if(message == null)
+            {
+                return BadRequest("Wrong Password");
+            }
+
+            return Ok(message);
+
         }
     }
 }

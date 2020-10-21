@@ -34,8 +34,19 @@ namespace GuessMyPassBackend
             services.AddMvc(option => option.EnableEndpointRouting = false);
             services.AddCors();
             
-            // services.AddTransient<IUserRepository, Controllers.UserRepository>();
-             services.AddScoped<IUserRepository, Controllers.UserRepository>();
+            services.AddScoped<IUserRepository, Controllers.UserRepository>();
+            services.AddScoped<IDataRepository, Controllers.DataRepository>();
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder
+                        .AllowAnyMethod()
+                        .AllowCredentials()
+                        .SetIsOriginAllowed((host) => true)
+                        .AllowAnyHeader());
+            });
+
 
             services.Configure<Settings>(options =>
             {
@@ -58,10 +69,9 @@ namespace GuessMyPassBackend
                 app.UseHsts();
             }
 
+            app.UseCors("CorsPolicy");
+
             app.UseMiddleware(typeof(AuthMiddleware));
-
-            app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
-
 
             app.UseHttpsRedirection();
 
