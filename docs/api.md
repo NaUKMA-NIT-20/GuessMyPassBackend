@@ -259,7 +259,7 @@ Response if status `400`:
 
 ##  Status Codes
 
-Gophish returns the following status codes in its API:
+API returns the following status codes in its API:
 
 | Status Code | Description |
 | :--- | :--- |
