@@ -69,6 +69,31 @@ namespace GuessMyPassBackend.Services
             
         }
 
+        // delete data by id
+        public string DeleteDataById(string id, string token)
+        {
+
+            try
+            {
+
+                string email = DecodeJwtEmail(token);
+
+                Data data = _database.GetCollection<Data>("data").FindOneAndDelete(d => d.Owner.Equals(email) && d.id.Equals(id));
+
+                if(data == null)
+                {
+                    return null;
+                }
+
+                return "Data deleted successfully";
+
+            } catch (Exception)
+            {
+                return null;
+            }
+
+        }
+
         private string DecodeJwtEmail(string tokenString)
         {
 

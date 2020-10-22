@@ -32,5 +32,10 @@ namespace GuessMyPassBackend.Controllers
         {
             return _service.UpdateData(data);
         }
+
+        public string DeleteDataById(string id, string token)
+        {
+            return _service.DeleteDataById(id, token);
+        }
     }
 }

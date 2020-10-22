@@ -239,6 +239,23 @@ Response if status `200`:
 ]
 ```
 
+### Delete your data
+
+<br>
+
+`Requires token` 
+
+DELETE `/data/{id}`
+
+Response if status `200`:
+```JSON
+"Data deleted successfully"
+```
+
+Response if status `400`:
+```JSON
+"Data with this id doesn't exist"
+```
 
 ##  Status Codes
 

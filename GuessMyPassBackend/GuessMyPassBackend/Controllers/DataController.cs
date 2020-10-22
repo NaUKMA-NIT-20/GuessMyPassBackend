@@ -24,9 +24,7 @@ namespace GuessMyPassBackend.Controllers
         public ActionResult CreateData([FromBody] Data data)
         {
                 Data newData;
-
-                string token = HttpContext.Request.Headers["Authorization"];
-                newData = _datacontext.CreateData(data, token); 
+                newData = _datacontext.CreateData(data, HttpContext.Request.Headers["Authorization"]); 
 
                 return Ok(newData);
         }
@@ -46,12 +44,26 @@ namespace GuessMyPassBackend.Controllers
         }
 
 
+        // delete data by id
+        [HttpDelete]
+        [Route("{id}")]
+        public ActionResult DeleteDataById(string id)
+        {
+            string message = _datacontext.DeleteDataById(id, HttpContext.Request.Headers["Authorization"]);
+
+            if (message == null)
+            {
+                return BadRequest("Data with this id doesn't exist");
+            }
+
+            return Ok(message);
+        }
+
         // Get all data of user
         [HttpGet]
         public List<Data> Get()
         {
-            string token = HttpContext.Request.Headers["Authorization"];
-            return _datacontext.GetAllData(token);
+            return _datacontext.GetAllData(HttpContext.Request.Headers["Authorization"]);
         }
 
     }
