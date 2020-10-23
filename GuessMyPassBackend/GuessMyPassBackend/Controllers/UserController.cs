@@ -67,8 +67,9 @@ namespace GuessMyPassBackend.Controllers
         // /user/options/password
         [HttpPut]
         [Route("options/password")]
-        public ActionResult UpdatePassword([FromBody] PasswordRestartRequest requestBody)
+        public ActionResult UpdatePassword([FromBody] UserOptions requestBody)
         {
+
             string message = _userContext.UpdatePassword(requestBody, HttpContext.Request.Headers["Authorization"]);
 
             if(message == null)
@@ -79,5 +80,23 @@ namespace GuessMyPassBackend.Controllers
             return Ok(message);
 
         }
+
+        [HttpPut]
+        [Route("options/username")]
+        public ActionResult UpdateUsername([FromBody] UserOptions requestBody)
+        {
+
+            string message = _userContext.UpdateUsername(requestBody, HttpContext.Request.Headers["Authorization"]);
+
+            if (message == null || message.Equals("User with same username already exists"))
+            {
+
+                return (message == null) ? BadRequest("Wrong username") : BadRequest(message);
+            }
+
+            return Ok(message);
+
+        }
+
     }
 }

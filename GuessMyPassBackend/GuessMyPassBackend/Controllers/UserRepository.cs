@@ -24,10 +24,14 @@ namespace GuessMyPassBackend.Controllers
             return _service.Login(email, password);
         }
 
-        public string UpdatePassword(PasswordRestartRequest requestBody, string token)
+        public string UpdatePassword(UserOptions requestBody, string token)
         {
             return _service.UpdatePassword(requestBody, token);
         }
 
+        public string UpdateUsername(UserOptions requestBody, string token)
+        {
+            return _service.UpdateUsername(requestBody, token);
+        }
     }
 }

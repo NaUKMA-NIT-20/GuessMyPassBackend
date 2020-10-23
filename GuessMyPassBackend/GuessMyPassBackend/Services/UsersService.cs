@@ -42,7 +42,7 @@ namespace GuessMyPassBackend
             string userCreated = "User was created";
 
             if (user.Username.Length == 0 || user.Password.Length == 0 || user.Email.Length == 0) return errorToReturn;
-            if (!CanCreateUser(user.Username, user.Email)) return errorToReturn1;
+            if (!UserExists(user.Username, user.Email)) return errorToReturn1;
 
             user.Password = BC.HashPassword(user.Password);
 
@@ -73,7 +73,7 @@ namespace GuessMyPassBackend
         }
 
         // Update user password
-        public string UpdatePassword(PasswordRestartRequest requestBody, string tokenString)
+        public string UpdatePassword(UserOptions requestBody, string tokenString)
         {
             try
             {
@@ -91,10 +91,9 @@ namespace GuessMyPassBackend
                 string newPasswordHashed = BC.HashPassword(requestBody.NewPassword);
 
                 FilterDefinition<User> filter = Builders<User>.Filter.Eq("email", email);
-
                 UpdateDefinition<User> update = Builders<User>.Update.Set("password", newPasswordHashed);
 
-                _database.GetCollection<User>("users").FindOneAndUpdate<User>(filter, update, new FindOneAndUpdateOptions<User> { ReturnDocument = ReturnDocument.After });
+                _database.GetCollection<User>("users").FindOneAndUpdate<User>(filter, update);
 
                 return "Password updated";
 
@@ -105,7 +104,40 @@ namespace GuessMyPassBackend
 
         }
 
+        // Update username
+        public string UpdateUsername(UserOptions requestBody, string tokenString)
+        {
+            try
+            {
 
+                JwtSecurityToken token = new JwtSecurityToken(tokenString);
+
+                string email = token.Claims.First(c => c.Type == "email").Value;
+
+                // Get user by email from token
+                User originalUser = _database.GetCollection<User>("users").Find(a => a.Email == email).First();
+
+                if (requestBody.NewUsername == null || requestBody.Username == null || requestBody.Username != originalUser.Username ) throw new Exception();
+
+                // Check if user with newUsername already exists
+                if (!UserExists(requestBody.NewUsername, "1"))
+                {
+                    return "User with same username already exists";
+                }
+
+                FilterDefinition<User> filter = Builders<User>.Filter.Eq("username", requestBody.Username);
+                UpdateDefinition<User> update = Builders<User>.Update.Set("username", requestBody.NewUsername);
+
+                _database.GetCollection<User>("users").FindOneAndUpdate<User>(filter, update);
+
+                return "Username updated";
+
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
 
 
         // Generate token that will be valid for 7 days
@@ -131,7 +163,7 @@ namespace GuessMyPassBackend
 
         // Check if user can be created ( find occurrences in db )
 
-        public bool CanCreateUser(string username, string email)
+        public bool UserExists(string username, string email)
         {
             User returnUser;
             try
