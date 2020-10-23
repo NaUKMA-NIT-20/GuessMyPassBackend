@@ -116,6 +116,32 @@ Response if status `404`:
 "Wrong Password"
 ```
 
+Change your username
+
+`Requires token` 
+
+PUT `/user/options/username`
+
+Request:
+```JSON
+{
+    "username": "current username",
+    "newUsername": "new username"
+}
+```
+
+The `username` attribute is your current username.
+
+The `newUsername` attribute is your new username.
+
+Response if status `200`:
+```JSON
+"Username updated"
+```
+Response if status `400`:
+```JSON
+"Wrong Username" | "User with same username already exists"
+```
 
 -------------------
 ## DataController
