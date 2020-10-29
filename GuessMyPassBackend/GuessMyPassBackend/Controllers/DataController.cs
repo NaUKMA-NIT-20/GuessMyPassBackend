@@ -57,7 +57,7 @@ namespace GuessMyPassBackend.Controllers
                 return BadRequest(new { error = "Data with this id doesn't exist" });
             }
 
-            return Ok(message);
+            return Ok(new { message });
         }
 
         // Get all data of user
