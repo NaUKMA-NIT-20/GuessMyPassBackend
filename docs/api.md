@@ -49,7 +49,7 @@ Response if status `200`:
 Response if status `400`:
 ```JSON
 {
-    error: "Empty request" | "Wrong request. User already exists"
+    "error": "Empty request" | "Wrong request. User already exists"
 }
 ```
 
@@ -87,7 +87,7 @@ Response if status `200`:
 Response if status `404`:
 ```JSON
 {
-    error: "Wrong email or password"
+    "error": "Wrong email or password"
 }
 ```
 
@@ -153,7 +153,7 @@ Response if status `200`:
 Response if status `400`:
 ```JSON
 {
-    error: "Wrong Username" | "User with same username already exists" 
+    "error": "Wrong Username" | "User with same username already exists" 
 }
 ```
 
@@ -291,15 +291,15 @@ DELETE `/data/{id}`
 
 Response if status `200`:
 ```JSON
-{
-    message: "Data deleted successfully"
+{   
+    "message": "Data deleted successfully"
 }
 ```
 
 Response if status `400`:
 ```JSON
 {
-    error: "Data with this id doesn't exist"
+    "error": "Data with this id doesn't exist"
 }
 ```
 
