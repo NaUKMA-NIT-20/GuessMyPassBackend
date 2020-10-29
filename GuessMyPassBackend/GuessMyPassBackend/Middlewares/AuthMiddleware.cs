@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
@@ -23,9 +24,10 @@ namespace GuessMyPassBackend.Middlewares
         }
 
         public async Task Invoke(HttpContext context)
-        { 
-
-            if(context.Request.Path.Equals("/user/login") || context.Request.Path.Equals("/user/register"))
+        {
+            context.Response.ContentType = "application/json";
+                                                                     
+            if (context.Request.Path.Equals("/user/login") || context.Request.Path.Equals("/user/register"))
             {
                 await _next(context);
             } else
@@ -36,14 +38,18 @@ namespace GuessMyPassBackend.Middlewares
                 if (token != null)
                 {
                     isValid = ValidateJwt(context, token);
+                } 
+                else
+                {
+                    context.Response.StatusCode = 401;
+                    await context.Response.WriteAsync(JsonConvert.SerializeObject(new { error = "No authorization token provided" }));
+                    return;
                 }
-
-
 
                 if (!isValid)
                 {
                     context.Response.StatusCode = 401;
-                    await context.Response.WriteAsync("No Authorization");
+                    await context.Response.WriteAsync(JsonConvert.SerializeObject(new { error = "Authorization token is not valid"}));
                     return;
                 }
 

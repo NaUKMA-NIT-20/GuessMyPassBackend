@@ -8,6 +8,7 @@ using MongoDB.Bson;
 
 namespace GuessMyPassBackend.Controllers
 {
+    [ApiController]
     [Produces("application/json")]
     [Route("data")]
     public class DataController : Controller
@@ -37,7 +38,7 @@ namespace GuessMyPassBackend.Controllers
 
             if(updatedData == null)
             {
-                return BadRequest("Wrong data");
+                return BadRequest(new { error = "Wrong data! Try again!" });
             }
 
             return Ok(updatedData);
@@ -53,7 +54,7 @@ namespace GuessMyPassBackend.Controllers
 
             if (message == null)
             {
-                return BadRequest("Data with this id doesn't exist");
+                return BadRequest(new { error = "Data with this id doesn't exist" });
             }
 
             return Ok(message);

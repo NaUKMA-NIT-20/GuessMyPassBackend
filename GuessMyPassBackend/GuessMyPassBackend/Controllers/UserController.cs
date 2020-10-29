@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace GuessMyPassBackend.Controllers
 {
+    [ApiController]
     [Produces("application/json")]
     [Route("user")]
     public class UsersController : Controller
@@ -22,9 +23,9 @@ namespace GuessMyPassBackend.Controllers
         // /user/test
         [HttpGet]
         [Route("test")]
-        public String Login()
+        public ActionResult Login()
         {
-            return "Izi dla menia. Ludshiu v mire za rabotoi";
+            return Ok(new { message = "Izi dla menia. Ludshiu v mire za rabotoi" });
         }
 
         
@@ -40,7 +41,7 @@ namespace GuessMyPassBackend.Controllers
             if (user == null)
             {
 
-                return StatusCode(404, "Wrong email or password");
+                return BadRequest( new { error = "Wrong email or password" });
             }
 
             return Ok(user);
@@ -57,10 +58,10 @@ namespace GuessMyPassBackend.Controllers
 
             if (!message.Equals("User was created"))
             {
-                return BadRequest(message);
+                return BadRequest(new { error = message });
             }
 
-            return Ok(message);
+            return Ok( new { message });
         }
 
 
@@ -74,13 +75,14 @@ namespace GuessMyPassBackend.Controllers
 
             if(message == null)
             {
-                return BadRequest("Wrong Password");
+                return BadRequest(new { error = "Wrong password provided" });
             }
 
-            return Ok(message);
+            return Ok(new { message });
 
         }
 
+        // /user/options/username
         [HttpPut]
         [Route("options/username")]
         public ActionResult UpdateUsername([FromBody] UserOptions requestBody)
@@ -91,10 +93,10 @@ namespace GuessMyPassBackend.Controllers
             if (message == null || message.Equals("User with same username already exists"))
             {
 
-                return (message == null) ? BadRequest("Wrong username") : BadRequest(message);
+                return (message == null) ? BadRequest(new { error = "Wrong username" }) : StatusCode(409, new { message });
             }
 
-            return Ok(message);
+            return Ok(new { message });
 
         }
 

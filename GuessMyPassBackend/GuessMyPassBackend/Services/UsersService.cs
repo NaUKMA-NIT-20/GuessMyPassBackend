@@ -75,6 +75,7 @@ namespace GuessMyPassBackend
         // Update user password
         public string UpdatePassword(UserOptions requestBody, string tokenString)
         {
+
             try
             {
 
@@ -85,8 +86,11 @@ namespace GuessMyPassBackend
                 // Get user by email from token
                 User originalUser = _database.GetCollection<User>("users").Find(a => a.Email == email).First();
 
+                
+
                 if (requestBody.NewPassword == null || requestBody.Password == null || !BC.Verify(requestBody.Password, originalUser.Password)) throw new Exception();
 
+               
                 // Hash new Password
                 string newPasswordHashed = BC.HashPassword(requestBody.NewPassword);
 
