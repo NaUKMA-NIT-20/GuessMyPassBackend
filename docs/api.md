@@ -41,12 +41,16 @@ The `passwordHelp` attribute is optional.
 
 Response if status `200`:
 ```JSON
-"User was created"
+{
+    "message": "User was created"
+}
 ```
 
 Response if status `400`:
 ```JSON
-"Empty request" | "Wrong request. User already exists"
+{
+    error: "Empty request" | "Wrong request. User already exists"
+}
 ```
 
 <br>
@@ -82,7 +86,9 @@ Response if status `200`:
 ```
 Response if status `404`:
 ```JSON
-"Wrong email or password"
+{
+    error: "Wrong email or password"
+}
 ```
 
 ### Options
@@ -109,11 +115,15 @@ The `newPassword` attribute is your new password.
 
 Response if status `200`:
 ```JSON
-"Password updated"
+{
+    "message": "Password updated"
+}
 ```
-Response if status `404`:
+Response if status `400`:
 ```JSON
-"Wrong Password"
+{
+    "error": "Wrong password provided"
+}
 ```
 
 Change your username
@@ -136,11 +146,15 @@ The `newUsername` attribute is your new username.
 
 Response if status `200`:
 ```JSON
-"Username updated"
+{
+    "message": "Username updated"
+}
 ```
 Response if status `400`:
 ```JSON
-"Wrong Username" | "User with same username already exists"
+{
+    error: "Wrong Username" | "User with same username already exists" 
+}
 ```
 
 -------------------
@@ -226,7 +240,9 @@ Response if status `200`:
 
 Response if status `400`:
 ```JSON
-"Wrong data"
+{
+    "error": "Wrong data! Try again!"
+}
 ```
 
 <br>
@@ -275,12 +291,16 @@ DELETE `/data/{id}`
 
 Response if status `200`:
 ```JSON
-"Data deleted successfully"
+{
+    message: "Data deleted successfully"
+}
 ```
 
 Response if status `400`:
 ```JSON
-"Data with this id doesn't exist"
+{
+    error: "Data with this id doesn't exist"
+}
 ```
 
 ##  Status Codes
@@ -294,4 +314,5 @@ API returns the following status codes in its API:
 | 400 | `BAD REQUEST` |
 | 401 | `UNAUTHORIZED`
 | 404 | `NOT FOUND` |
+| 409 | `CONFLICT` |
 | 500 | `INTERNAL SERVER ERROR` |
