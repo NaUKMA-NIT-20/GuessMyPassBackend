@@ -44,7 +44,7 @@ namespace GuessMyPassBackend
             if (user.Username.Length == 0 || user.Password.Length == 0 || user.Email.Length == 0) return errorToReturn;
             if (!UserExists(user.Username, user.Email)) return errorToReturn1;
 
-            user.Password = BC.HashPassword(user.Password);
+            //user.Password = BC.HashPassword(user.Password);
 
             _database.GetCollection<User>(users).InsertOne(user);
             return userCreated;
