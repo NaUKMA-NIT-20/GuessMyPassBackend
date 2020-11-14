@@ -156,7 +156,9 @@ namespace GuessMyPassBackend
 
                 // Decode payload ( username, email )
 
-                Subject = new ClaimsIdentity(new[] { new Claim("username", username), new Claim("email", email) }),
+
+                // Subject = new ClaimsIdentity(new[] { new Claim("username", username), new Claim("email", email) }),
+                Subject = new ClaimsIdentity(new[] { new Claim("username", username)}),
                 Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
