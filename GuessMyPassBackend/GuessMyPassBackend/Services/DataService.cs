@@ -34,9 +34,9 @@ namespace GuessMyPassBackend.Services
         public List<Data> GetAllData(string token)
         {
 
-            string email = DecodeJwtUsername(token);
+            string username = DecodeJwtUsername(token);
 
-            return _database.GetCollection<Data>("data").Find<Data>(data => data.Owner == email).ToList();
+            return _database.GetCollection<Data>("data").Find<Data>(data => data.Owner == username).ToList();
         }
 
         public Data CreateData(Data data, string token)

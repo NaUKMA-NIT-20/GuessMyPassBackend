@@ -44,7 +44,7 @@ namespace GuessMyPassBackend
             if (user.Username.Length == 0 || user.Password.Length == 0 || user.Email.Length == 0) return errorToReturn;
             if (!UserExists(user.Username, user.Email)) return errorToReturn1;
 
-            //user.Password = BC.HashPassword(user.Password);
+            user.Password = BC.HashPassword(user.Password);
 
             _database.GetCollection<User>(users).InsertOne(user);
             return userCreated;
@@ -62,7 +62,7 @@ namespace GuessMyPassBackend
 
                 if (password == null || !BC.Verify(password, returnUser.Password)) throw new System.InvalidOperationException();
 
-                returnUser.Token = generateJwtToken(returnUser.Username, returnUser.Email);
+                returnUser.Token = generateJwtToken(returnUser.Username);
             }
             catch (System.InvalidOperationException)
             {
@@ -145,7 +145,7 @@ namespace GuessMyPassBackend
 
 
         // Generate token that will be valid for 7 days
-        private string generateJwtToken(string username, string email)
+        private string generateJwtToken(string username)
         {
 
             JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
