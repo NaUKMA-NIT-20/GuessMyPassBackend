@@ -58,6 +58,7 @@ namespace GuessMyPassBackend.Services
             
             UpdateDefinition<Data> update = Builders<Data>.Update
                 .Set("name", data.Name)
+                .Set("password",data.Password)
                 .Set("url", data.Url)
                 .Set("notes", data.Notes)
                 .Set("cardholderName", data.CardholderName)
