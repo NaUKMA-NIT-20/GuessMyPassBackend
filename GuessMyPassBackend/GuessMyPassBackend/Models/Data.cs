@@ -19,6 +19,8 @@ namespace GuessMyPassBackend.Models
 
         [BsonElement("name")]
         public string Name { get; set; } = String.Empty;
+        [BsonElement("password")]
+        public string Password { get; set; } = String.Empty;
 
         [BsonElement("type")]
         private Type Type { get; set; } = Type.NONE;
