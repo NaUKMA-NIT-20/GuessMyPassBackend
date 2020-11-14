@@ -87,7 +87,6 @@ namespace GuessMyPassBackend
                 User originalUser = _database.GetCollection<User>("users").Find(a => a.Email == email).First();
 
                 
-
                 if (requestBody.NewPassword == null || requestBody.Password == null || !BC.Verify(requestBody.Password, originalUser.Password)) throw new Exception();
 
                
