@@ -81,19 +81,20 @@ namespace GuessMyPassBackend
 
                 JwtSecurityToken token = new JwtSecurityToken(tokenString);
 
-                string email = token.Claims.First(c => c.Type == "email").Value;
+                string username = token.Claims.First(c => c.Type == "username").Value;
 
                 // Get user by email from token
-                User originalUser = _database.GetCollection<User>("users").Find(a => a.Email == email).First();
+                User originalUser = _database.GetCollection<User>("users").Find(a => a.Username == username).First();
 
                 
                 if (requestBody.NewPassword == null || requestBody.Password == null || !BC.Verify(requestBody.Password, originalUser.Password)) throw new Exception();
 
-               
+
+                
                 // Hash new Password
                 string newPasswordHashed = BC.HashPassword(requestBody.NewPassword);
 
-                FilterDefinition<User> filter = Builders<User>.Filter.Eq("email", email);
+                FilterDefinition<User> filter = Builders<User>.Filter.Eq("username", username);
                 UpdateDefinition<User> update = Builders<User>.Update.Set("password", newPasswordHashed);
 
                 _database.GetCollection<User>("users").FindOneAndUpdate<User>(filter, update);
@@ -115,10 +116,10 @@ namespace GuessMyPassBackend
 
                 JwtSecurityToken token = new JwtSecurityToken(tokenString);
 
-                string email = token.Claims.First(c => c.Type == "email").Value;
+                string username = token.Claims.First(c => c.Type == "username").Value;
 
                 // Get user by email from token
-                User originalUser = _database.GetCollection<User>("users").Find(a => a.Email == email).First();
+                User originalUser = _database.GetCollection<User>("users").Find(a => a.Username == username).First();
 
                 if (requestBody.NewUsername == null || requestBody.Username == null || requestBody.Username != originalUser.Username ) throw new Exception();
 
