@@ -174,6 +174,7 @@ Request
 ```JSON
 {
     "name": "name",
+    "password": "password",
     "url": "url",
     "notes": "notes",
     "cardholderName": "",
@@ -189,6 +190,7 @@ Response if status `200`:
     "id": "id",
     "owner": "user email",
     "name": "",
+    "password": "password",
     "url": "",
     "notes": "",
     "cardholderName": "",
@@ -214,6 +216,7 @@ Request
 {
     "id": "id",
     "name": "name",
+    "password": "password",
     "url": "url",
     "notes": "notes",
     "cardholderName": "my name",
@@ -230,6 +233,7 @@ Response if status `200`:
     "id": "id",
     "owner": "user email",
     "name": "name",
+    "password": "password",
     "url": "url",
     "notes": "notes",
     "cardholderName": "my name",
@@ -262,6 +266,7 @@ Response if status `200`:
         "id": "id1",
         "owner": "your email",
         "name": "name",
+        "password": "password",
         "url": "url",
         "notes": "notes",
         "cardholderName": "",
@@ -272,6 +277,7 @@ Response if status `200`:
         "id": "id2",
         "owner": "your email",
         "name": "",
+        "password": "password", 
         "url": "",
         "notes": "",
         "cardholderName": "",
