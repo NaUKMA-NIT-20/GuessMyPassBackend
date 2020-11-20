@@ -8,11 +8,13 @@ namespace GuessMyPassBackend.Models
     public class AuthedUser
     {
         [BsonId]
-        public ObjectId DbId { get; set; }
+        public ObjectId _id { get; set; }
+
+        public string id { get; set; } = String.Empty;
 
         [BsonElement("email")]
         public string Email { get; set; }
-        
+
         [BsonElement("username")]
         public string Username { get; set; } = String.Empty;
         

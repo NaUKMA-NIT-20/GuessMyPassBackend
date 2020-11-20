@@ -9,10 +9,10 @@ namespace GuessMyPassBackend.Models
     {
 
         [BsonId]
-        public ObjectId DbId { get; set; }
-       /* [BsonElement("id")]
-        public string Id { get; set; }*/
-        
+        public ObjectId _id { get; set; }
+        [BsonElement("id")]
+        public string id { get; set; } = String.Empty;
+
         [BsonElement("email")]
         public string Email { get; set; }
         
@@ -28,5 +28,10 @@ namespace GuessMyPassBackend.Models
         [BsonElement("createdOn")]
         public DateTime CreatedOn { get; set; } = DateTime.Now;
 
+
+        public User()
+        {
+            _id = ObjectId.GenerateNewId();
+        }
     }
 }

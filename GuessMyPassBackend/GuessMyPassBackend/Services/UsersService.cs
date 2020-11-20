@@ -46,6 +46,7 @@ namespace GuessMyPassBackend
 
             user.Password = BC.HashPassword(user.Password);
 
+            user.id = user._id.ToString();
             _database.GetCollection<User>(users).InsertOne(user);
             return userCreated;
         }
@@ -57,12 +58,13 @@ namespace GuessMyPassBackend
             try
             {
                 returnUser = _database.GetCollection<AuthedUser>("users").Find(a => a.Email == email).First();
+               
 
                 // Verify password from request and db
 
                 if (password == null || !BC.Verify(password, returnUser.Password)) throw new System.InvalidOperationException();
 
-                returnUser.Token = generateJwtToken(returnUser.Username);
+                returnUser.Token = generateJwtToken(returnUser.id);
             }
             catch (System.InvalidOperationException)
             {
@@ -81,11 +83,10 @@ namespace GuessMyPassBackend
 
                 JwtSecurityToken token = new JwtSecurityToken(tokenString);
 
-                string username = token.Claims.First(c => c.Type == "username").Value;
+                string id = token.Claims.First(c => c.Type == "id").Value;
 
                 // Get user by email from token
-                User originalUser = _database.GetCollection<User>("users").Find(a => a.Username == username).First();
-
+                User originalUser = _database.GetCollection<User>("users").Find(a => a.id == id).First();
                 
                 if (requestBody.NewPassword == null || requestBody.Password == null || !BC.Verify(requestBody.Password, originalUser.Password)) throw new Exception();
 
@@ -94,7 +95,7 @@ namespace GuessMyPassBackend
                 // Hash new Password
                 string newPasswordHashed = BC.HashPassword(requestBody.NewPassword);
 
-                FilterDefinition<User> filter = Builders<User>.Filter.Eq("username", username);
+                FilterDefinition<User> filter = Builders<User>.Filter.Eq("username", originalUser.Username);
                 UpdateDefinition<User> update = Builders<User>.Update.Set("password", newPasswordHashed);
 
                 _database.GetCollection<User>("users").FindOneAndUpdate<User>(filter, update);
@@ -116,10 +117,10 @@ namespace GuessMyPassBackend
 
                 JwtSecurityToken token = new JwtSecurityToken(tokenString);
 
-                string username = token.Claims.First(c => c.Type == "username").Value;
+                string id = token.Claims.First(c => c.Type == "id").Value;
 
-                // Get user by email from token
-                User originalUser = _database.GetCollection<User>("users").Find(a => a.Username == username).First();
+                // Get user by id from token
+                User originalUser = _database.GetCollection<User>("users").Find(a => a.id == id && a.Username == requestBody.Username).First();
 
                 if (requestBody.NewUsername == null || requestBody.Username == null || requestBody.Username != originalUser.Username ) throw new Exception();
 
@@ -145,7 +146,7 @@ namespace GuessMyPassBackend
 
 
         // Generate token that will be valid for 7 days
-        private string generateJwtToken(string username)
+        private string generateJwtToken(string id)
         {
 
             JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
@@ -158,7 +159,7 @@ namespace GuessMyPassBackend
 
 
                 // Subject = new ClaimsIdentity(new[] { new Claim("username", username), new Claim("email", email) }),
-                Subject = new ClaimsIdentity(new[] { new Claim("username", username)}),
+                Subject = new ClaimsIdentity(new[] { new Claim("id", id) }),
                 Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };

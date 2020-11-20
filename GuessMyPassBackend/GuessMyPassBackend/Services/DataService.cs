@@ -34,17 +34,17 @@ namespace GuessMyPassBackend.Services
         public List<Data> GetAllData(string token)
         {
 
-            string username = DecodeJwtUsername(token);
+            string id = findIdentity(token);
 
-            return _database.GetCollection<Data>("data").Find<Data>(data => data.Owner == username).ToList();
+            return _database.GetCollection<Data>("data").Find<Data>(data => data.UserId == id).ToList();
         }
 
         public Data CreateData(Data data, string token)
         {
 
-            string decoded = DecodeJwtUsername(token);
+            string id = findIdentity(token);
 
-            data.Owner = decoded;
+            data.UserId = id;
             data.id = data._id.ToString();
             _database.GetCollection<Data>("data").InsertOne(data);
 
@@ -77,9 +77,9 @@ namespace GuessMyPassBackend.Services
             try
             {
 
-                string email = DecodeJwtUsername(token);
+                string owner = findIdentity(token);
 
-                Data data = _database.GetCollection<Data>("data").FindOneAndDelete(d => d.Owner.Equals(email) && d.id.Equals(id));
+                Data data = _database.GetCollection<Data>("data").FindOneAndDelete(d => d.UserId.Equals(owner) && d.id.Equals(id));
 
                 if(data == null)
                 {
@@ -95,16 +95,16 @@ namespace GuessMyPassBackend.Services
 
         }
 
-        private string DecodeJwtUsername(string tokenString)
+        private string findIdentity(string tokenString)
         {
 
             try
             {
                 JwtSecurityToken token = new JwtSecurityToken(tokenString);
 
-                string username = token.Claims.First(c => c.Type == "username").Value;
+                string id = token.Claims.First(c => c.Type == "id").Value;
 
-                return username;
+                return id;
             } catch (Exception) {
 
                 return "";
