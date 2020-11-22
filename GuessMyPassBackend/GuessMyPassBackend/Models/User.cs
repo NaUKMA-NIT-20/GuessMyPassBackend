@@ -2,7 +2,6 @@
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
-
 namespace GuessMyPassBackend.Models
 {
     public class User
@@ -10,16 +9,21 @@ namespace GuessMyPassBackend.Models
 
         [BsonId]
         public ObjectId _id { get; set; }
-        [BsonElement("id")]
-        public string id { get; set; } = String.Empty;
 
+        [BsonElement("id")]
+        [BsonRequired]
+        public string id { get; set; } = String.Empty;
+        
         [BsonElement("email")]
+        [BsonRequired]
         public string Email { get; set; }
         
         [BsonElement("username")]
+        [BsonRequired]
         public string Username { get; set; } = String.Empty;
         
         [BsonElement("password")]
+        [BsonRequired]
         public string Password { get; set; } = String.Empty;
       
         [BsonElement("passwordHelp")]
@@ -27,11 +31,9 @@ namespace GuessMyPassBackend.Models
         
         [BsonElement("createdOn")]
         public DateTime CreatedOn { get; set; } = DateTime.Now;
-
-
         public User()
         {
-            _id = ObjectId.GenerateNewId();
+            id = ObjectId.GenerateNewId().ToString();
         }
     }
 }

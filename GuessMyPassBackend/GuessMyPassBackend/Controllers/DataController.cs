@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using GuessMyPassBackend.Models;
-using GuessMyPassBackend.Services;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
-using MongoDB.Bson;
+
+using GuessMyPassBackend.Models;
+using GuessMyPassBackend.Contexts;
 
 namespace GuessMyPassBackend.Controllers
 {
@@ -13,9 +12,9 @@ namespace GuessMyPassBackend.Controllers
     [Route("data")]
     public class DataController : Controller
     {
-        private readonly IDataRepository _datacontext;
+        private readonly IDataContext _datacontext;
 
-        public DataController(IDataRepository datacontext)
+        public DataController(IDataContext datacontext)
         {
             _datacontext = datacontext;
         }

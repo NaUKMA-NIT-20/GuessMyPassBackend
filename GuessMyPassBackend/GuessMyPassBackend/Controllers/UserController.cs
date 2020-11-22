@@ -1,9 +1,9 @@
 ﻿using System;
-using GuessMyPassBackend.Models;
-using GuessMyPassBackend.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 
+using GuessMyPassBackend.Models;
+using GuessMyPassBackend.Contexts;
 
 namespace GuessMyPassBackend.Controllers
 {
@@ -12,9 +12,9 @@ namespace GuessMyPassBackend.Controllers
     [Route("user")]
     public class UsersController : Controller
     {
-        private readonly IUserRepository _userContext;
+        private readonly IUserContext _userContext;
 
-        public UsersController(IUserRepository userContext)
+        public UsersController(IUserContext userContext)
         {
             _userContext = userContext;
         }

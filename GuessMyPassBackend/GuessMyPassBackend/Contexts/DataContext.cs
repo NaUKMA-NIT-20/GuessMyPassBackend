@@ -1,19 +1,24 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
+
 using GuessMyPassBackend.Models;
 using GuessMyPassBackend.Services;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
-using MongoDB.Driver;
 
-namespace GuessMyPassBackend.Controllers
+namespace GuessMyPassBackend.Contexts
 {
-    public class DataRepository : IDataRepository
+
+    public interface IDataContext
+    {
+        List<Data> GetAllData(string token);
+        Data CreateData(Data data, string token);
+        Data UpdateData(Data data);
+        string DeleteDataById(string id, string token);
+    }
+    public class DataContext : IDataContext
     {
         private readonly DataService _service = null;
 
-        public DataRepository(IOptions<Settings> settings)
+        public DataContext(IOptions<Settings> settings)
         {
             _service = new DataService(settings);
         }

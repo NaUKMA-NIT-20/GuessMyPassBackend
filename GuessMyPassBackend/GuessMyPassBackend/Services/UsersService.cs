@@ -1,25 +1,22 @@
-﻿using System.Threading.Tasks;
-using Microsoft.Extensions.Options;
-using MongoDB.Driver.Core;
-using GuessMyPassBackend.Models;
+﻿using Microsoft.Extensions.Options;
 using MongoDB.Driver;
-using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 using System;
 using BC = BCrypt.Net.BCrypt;
 using System.Linq;
 
+using GuessMyPassBackend.Utils;
+using GuessMyPassBackend.Models;
 
 namespace GuessMyPassBackend
 {
    
     public class UsersService
     {
-        private readonly IMongoDatabase _database = null;
 
-        private string users = "users";
+        private readonly IMongoCollection<User> _usersCollection;
+
+        private string collectionName = "users";
 
         private string jwtSecret = null;
         public UsersService(IOptions<Settings> settings)
@@ -28,7 +25,7 @@ namespace GuessMyPassBackend
             var client = new MongoClient(settings.Value.ConnectionString);
             if (client != null)
             {
-                _database = client.GetDatabase(settings.Value.Database);
+                _usersCollection = client.GetDatabase(settings.Value.Database).GetCollection<User>(collectionName);
             }
                 
         }
@@ -46,59 +43,56 @@ namespace GuessMyPassBackend
 
             user.Password = BC.HashPassword(user.Password);
 
-            user.id = user._id.ToString();
-            _database.GetCollection<User>(users).InsertOne(user);
+            _usersCollection.InsertOne(user);
             return userCreated;
         }
 
         // Check if user exists and return AuthedUser instance
         public AuthedUser Login(string email, string password)
         {
-            AuthedUser returnUser;
+            User returnUser;
             try
             {
-                returnUser = _database.GetCollection<AuthedUser>("users").Find(a => a.Email == email).First();
+                returnUser = _usersCollection.Find(a => a.Email == email).First();
                
 
                 // Verify password from request and db
-
                 if (password == null || !BC.Verify(password, returnUser.Password)) throw new System.InvalidOperationException();
 
-                returnUser.Token = generateJwtToken(returnUser.id);
+                AuthedUser authedUser = new AuthedUser(returnUser);
+
+                authedUser.Token = Helpers.generateJwtToken(returnUser.id, jwtSecret);
+
+                return authedUser;
             }
             catch (System.InvalidOperationException)
             {
                 return null;
             }
 
-            return returnUser;
         }
 
         // Update user password
         public string UpdatePassword(UserOptions requestBody, string tokenString)
         {
-
             try
             {
-
                 JwtSecurityToken token = new JwtSecurityToken(tokenString);
 
                 string id = token.Claims.First(c => c.Type == "id").Value;
 
                 // Get user by email from token
-                User originalUser = _database.GetCollection<User>("users").Find(a => a.id == id).First();
+                User originalUser = _usersCollection.Find(a => a.id == id).First();
                 
                 if (requestBody.NewPassword == null || requestBody.Password == null || !BC.Verify(requestBody.Password, originalUser.Password)) throw new Exception();
 
-
-                
                 // Hash new Password
                 string newPasswordHashed = BC.HashPassword(requestBody.NewPassword);
 
                 FilterDefinition<User> filter = Builders<User>.Filter.Eq("username", originalUser.Username);
                 UpdateDefinition<User> update = Builders<User>.Update.Set("password", newPasswordHashed);
 
-                _database.GetCollection<User>("users").FindOneAndUpdate<User>(filter, update);
+                _usersCollection.FindOneAndUpdate<User>(filter, update);
 
                 return "Password updated";
 
@@ -120,7 +114,7 @@ namespace GuessMyPassBackend
                 string id = token.Claims.First(c => c.Type == "id").Value;
 
                 // Get user by id from token
-                User originalUser = _database.GetCollection<User>("users").Find(a => a.id == id && a.Username == requestBody.Username).First();
+                User originalUser = _usersCollection.Find(a => a.id == id && a.Username == requestBody.Username).First();
 
                 if (requestBody.NewUsername == null || requestBody.Username == null || requestBody.Username != originalUser.Username ) throw new Exception();
 
@@ -133,7 +127,7 @@ namespace GuessMyPassBackend
                 FilterDefinition<User> filter = Builders<User>.Filter.Eq("username", requestBody.Username);
                 UpdateDefinition<User> update = Builders<User>.Update.Set("username", requestBody.NewUsername);
 
-                _database.GetCollection<User>("users").FindOneAndUpdate<User>(filter, update);
+                _usersCollection.FindOneAndUpdate<User>(filter, update);
 
                 return "Username updated";
 
@@ -144,30 +138,6 @@ namespace GuessMyPassBackend
             }
         }
 
-
-        // Generate token that will be valid for 7 days
-        private string generateJwtToken(string id)
-        {
-
-            JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
-            byte[] key = Encoding.ASCII.GetBytes(jwtSecret);
-
-            SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
-            {
-
-                // Decode payload ( username, email )
-
-
-                // Subject = new ClaimsIdentity(new[] { new Claim("username", username), new Claim("email", email) }),
-                Subject = new ClaimsIdentity(new[] { new Claim("id", id) }),
-                Expires = DateTime.UtcNow.AddDays(7),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            };
-            SecurityToken token = tokenHandler.CreateToken(tokenDescriptor);
-            return tokenHandler.WriteToken(token);
-        }
-
-
         // Check if user can be created ( find occurrences in db )
 
         public bool UserExists(string username, string email)
@@ -175,7 +145,7 @@ namespace GuessMyPassBackend
             User returnUser;
             try
             {
-                returnUser = _database.GetCollection<User>("users").Find(a => a.Username == username || a.Email == email).First();
+                returnUser = _usersCollection.Find(a => a.Username == username || a.Email == email).First();
             }
             catch (System.InvalidOperationException)
             {

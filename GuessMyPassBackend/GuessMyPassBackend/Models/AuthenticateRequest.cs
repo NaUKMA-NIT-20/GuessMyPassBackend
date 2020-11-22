@@ -1,6 +1,4 @@
-﻿
-
-namespace GuessMyPassBackend.Models
+﻿namespace GuessMyPassBackend.Models
 {
     public class AuthenticateRequest
     {

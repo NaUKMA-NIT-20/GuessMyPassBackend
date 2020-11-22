@@ -1,12 +1,11 @@
 using GuessMyPassBackend.Middlewares;
 using GuessMyPassBackend.Models;
-using GuessMyPassBackend.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-
+using GuessMyPassBackend.Contexts;
 
 namespace GuessMyPassBackend
 {
@@ -25,8 +24,9 @@ namespace GuessMyPassBackend
             services.AddMvc(option => option.EnableEndpointRouting = false);
             services.AddCors();
             
-            services.AddScoped<IUserRepository, Controllers.UserRepository>();
-            services.AddScoped<IDataRepository, Controllers.DataRepository>();
+            services.AddScoped<IUserContext, UserContext>();
+            services.AddScoped<IDataContext, DataContext>();
+            services.AddScoped<IFolderContext, FolderContext>();
 
             services.AddCors(options =>
             {

@@ -2,14 +2,21 @@
 using GuessMyPassBackend.Services;
 using Microsoft.Extensions.Options;
 
-
-namespace GuessMyPassBackend.Controllers
+namespace GuessMyPassBackend.Contexts
 {
-    public class UserRepository : IUserRepository
+
+    public interface IUserContext
+    {
+        string CreateUser(User user);
+        AuthedUser Login(string username, string password);
+        string UpdatePassword(UserOptions requestBody, string token);
+        string UpdateUsername(UserOptions requestBody, string token);
+    }
+    public class UserContext : IUserContext
     {
         private readonly UsersService _service = null;
 
-        public UserRepository(IOptions<Settings> settings)
+        public UserContext(IOptions<Settings> settings)
         {
             _service = new UsersService(settings);
         }

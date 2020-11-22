@@ -1,32 +1,27 @@
-﻿using System.Threading.Tasks;
-using Microsoft.Extensions.Options;
-using MongoDB.Driver.Core;
-using GuessMyPassBackend.Models;
+﻿using Microsoft.Extensions.Options;
 using MongoDB.Driver;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
 using System;
 using System.Collections.Generic;
-using MongoDB.Bson.Serialization;
 using System.Linq;
-using Microsoft.AspNetCore.Mvc;
-using MongoDB.Bson;
-using System.Reflection.Metadata;
+
+using GuessMyPassBackend.Models;
+using GuessMyPassBackend.Utils;
 
 
 namespace GuessMyPassBackend.Services
 {
     public class DataService
     {
-        private readonly IMongoDatabase _database = null;
 
-        private string data = "data";
+        private readonly IMongoCollection<Data> _dataCollection;
+
+        private string collectionName = "data";
         public DataService(IOptions<Settings> settings)
         {
             var client = new MongoClient(settings.Value.ConnectionString);
             if (client != null)
             {
-                _database = client.GetDatabase(settings.Value.Database);
+                _dataCollection = client.GetDatabase(settings.Value.Database).GetCollection<Data>(collectionName);
             }
 
         }
@@ -34,19 +29,19 @@ namespace GuessMyPassBackend.Services
         public List<Data> GetAllData(string token)
         {
 
-            string id = findIdentity(token);
+            string id = Helpers.findIdentity(token);
 
-            return _database.GetCollection<Data>("data").Find<Data>(data => data.UserId == id).ToList();
+            return _dataCollection.Find<Data>(data => data.UserId == id).ToList();
         }
 
         public Data CreateData(Data data, string token)
         {
 
-            string id = findIdentity(token);
+            string id = Helpers.findIdentity(token);
 
             data.UserId = id;
-            data.id = data._id.ToString();
-            _database.GetCollection<Data>("data").InsertOne(data);
+
+            _dataCollection.InsertOne(data);
 
             return data;
         }
@@ -63,10 +58,11 @@ namespace GuessMyPassBackend.Services
                 .Set("notes", data.Notes)
                 .Set("cardholderName", data.CardholderName)
                 .Set("number", data.Number)
-                .Set("cvv", data.CVV);
+                .Set("cvv", data.CVV)
+                .Set("folder", data.Folder);
 
 
-            return _database.GetCollection<Data>("data").FindOneAndUpdate<Data>(filter, update, new FindOneAndUpdateOptions<Data> { ReturnDocument = ReturnDocument.After });
+            return _dataCollection.FindOneAndUpdate(filter, update, new FindOneAndUpdateOptions<Data> { ReturnDocument = ReturnDocument.After });
             
         }
 
@@ -77,9 +73,9 @@ namespace GuessMyPassBackend.Services
             try
             {
 
-                string owner = findIdentity(token);
+                string owner = Helpers.findIdentity(token);
 
-                Data data = _database.GetCollection<Data>("data").FindOneAndDelete(d => d.UserId.Equals(owner) && d.id.Equals(id));
+                Data data = _dataCollection.FindOneAndDelete(d => d.UserId.Equals(owner) && d.id.Equals(id));
 
                 if(data == null)
                 {
@@ -93,25 +89,6 @@ namespace GuessMyPassBackend.Services
                 return null;
             }
 
-        }
-
-        private string findIdentity(string tokenString)
-        {
-
-            try
-            {
-                JwtSecurityToken token = new JwtSecurityToken(tokenString);
-
-                string id = token.Claims.First(c => c.Type == "id").Value;
-
-                return id;
-            } catch (Exception) {
-
-                return "";
-
-            }
-
-            
         }
 
     }

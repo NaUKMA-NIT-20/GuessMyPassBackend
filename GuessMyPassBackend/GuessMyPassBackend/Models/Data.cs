@@ -2,7 +2,6 @@ using System;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
-
 namespace GuessMyPassBackend.Models
 {
     public class Data
@@ -16,6 +15,9 @@ namespace GuessMyPassBackend.Models
 
         [BsonElement("userId")]
         public string UserId { get; set; } = String.Empty;
+
+        [BsonElement("folder")]
+        public string Folder { get; set; } = String.Empty;
 
         [BsonElement("name")]
         public string Name { get; set; } = String.Empty;
@@ -42,7 +44,7 @@ namespace GuessMyPassBackend.Models
 
         public Data()
         {
-            _id = ObjectId.GenerateNewId();
+            id = ObjectId.GenerateNewId().ToString();
         }
 
     }
