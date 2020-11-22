@@ -188,7 +188,7 @@ Response if status `200`:
 ```JSON
 {
     "id": "id",
-    "owner": "user email",
+    "userId": "user Id",
     "name": "",
     "password": "password",
     "url": "",
@@ -231,7 +231,7 @@ Response if status `200`:
 ```JSON
 {
     "id": "id",
-    "owner": "user email",
+    "userId": "user Id",
     "name": "name",
     "password": "password",
     "url": "url",
@@ -264,7 +264,7 @@ Response if status `200`:
 [
     {
         "id": "id1",
-        "owner": "your email",
+        "userId": "user Id",
         "name": "name",
         "password": "password",
         "url": "url",
@@ -275,7 +275,7 @@ Response if status `200`:
     },
     {
         "id": "id2",
-        "owner": "your email",
+        "userId": "user Id",
         "name": "",
         "password": "password", 
         "url": "",
