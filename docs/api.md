@@ -10,6 +10,8 @@ These docs describe how to use the [GuessMyPass](https://guessmypass.herokuapp.c
 | :--- | :--- | :--- |
 | `UserController` | `GET POST PUT` | /user |
 | `DataController` | `GET POST PUT DELETE` | /data |
+| `FolderController` | `GET POST PUT DELETE` | /folder |
+| `DataController` | `POST` | /update/key |
 
 -------------------
 ## UserController
@@ -308,6 +310,56 @@ Response if status `400`:
     "error": "Data with this id doesn't exist"
 }
 ```
+
+-------------------
+## KeyController
+-------------------
+
+### Update all data
+
+<br>
+
+`Requires token` 
+
+
+POST `/update/key`
+
+Request
+```JSON
+[
+    "data": {
+        "id": "id1",
+        "userId": "user Id",
+        "name": "name",
+        "password": "password",
+        "url": "url",
+        "notes": "notes",
+        "cardholderName": "",
+        "number": "",
+        "cvv": ""
+    },
+    {
+        "id": "id1",
+        "userId": "user Id",
+        "name": "name",
+        "password": "password",
+        "url": "url",
+        "notes": "notes",
+        "cardholderName": "",
+        "number": "",
+        "cvv": ""
+    }
+]
+```
+
+Response if status `200`:
+```JSON
+{
+    "message": "Success"
+}
+```
+
+<br>
 
 ##  Status Codes
 
