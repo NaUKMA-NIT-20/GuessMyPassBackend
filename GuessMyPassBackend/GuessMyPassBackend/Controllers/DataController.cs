@@ -23,10 +23,10 @@ namespace GuessMyPassBackend.Controllers
         [HttpPost]
         public ActionResult CreateData([FromBody] Data data)
         {
-                Data newData;
-                newData = _datacontext.CreateData(data, HttpContext.Request.Headers["Authorization"]); 
+            Data newData;
+            newData = _datacontext.CreateData(data, HttpContext.Request.Headers["Authorization"]);
 
-                return Ok(newData);
+            return Ok(newData);
         }
 
         [HttpPut]
@@ -35,14 +35,13 @@ namespace GuessMyPassBackend.Controllers
 
             Data updatedData = _datacontext.UpdateData(data);
 
-            if(updatedData == null)
+            if (updatedData == null)
             {
                 return BadRequest(new { error = "Wrong data! Try again!" });
             }
 
             return Ok(updatedData);
         }
-
 
         // delete data by id
         [HttpDelete]

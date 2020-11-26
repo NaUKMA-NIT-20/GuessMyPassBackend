@@ -8,9 +8,9 @@ namespace GuessMyPassBackend.Contexts
     public interface IUserContext
     {
         string CreateUser(User user);
-        AuthedUser Login(string username, string password);
-        string UpdatePassword(UserOptions requestBody, string token);
-        string UpdateUsername(UserOptions requestBody, string token);
+        AuthedUserResponse Login(string username, string password);
+        string UpdatePassword(UserOptionsRequest requestBody, string token);
+        string UpdateUsername(UserOptionsRequest requestBody, string token);
     }
     public class UserContext : IUserContext
     {
@@ -26,17 +26,17 @@ namespace GuessMyPassBackend.Contexts
             return _service.CreateUser(user);
         }
 
-        public AuthedUser Login(string email, string password)
+        public AuthedUserResponse Login(string email, string password)
         {
             return _service.Login(email, password);
         }
 
-        public string UpdatePassword(UserOptions requestBody, string token)
+        public string UpdatePassword(UserOptionsRequest requestBody, string token)
         {
             return _service.UpdatePassword(requestBody, token);
         }
 
-        public string UpdateUsername(UserOptions requestBody, string token)
+        public string UpdateUsername(UserOptionsRequest requestBody, string token)
         {
             return _service.UpdateUsername(requestBody, token);
         }

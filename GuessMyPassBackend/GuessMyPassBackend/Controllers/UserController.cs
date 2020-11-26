@@ -34,7 +34,7 @@ namespace GuessMyPassBackend.Controllers
         [Route("login")]
         public ActionResult Login([FromBody] AuthenticateRequest userFromRequest)
         {
-            AuthedUser user = null;
+            AuthedUserResponse user = null;
 
             user = _userContext.Login(userFromRequest.Email, userFromRequest.Password);
 
@@ -68,7 +68,7 @@ namespace GuessMyPassBackend.Controllers
         // /user/options/password
         [HttpPut]
         [Route("options/password")]
-        public ActionResult UpdatePassword([FromBody] UserOptions requestBody)
+        public ActionResult UpdatePassword([FromBody] UserOptionsRequest requestBody)
         {
 
             string message = _userContext.UpdatePassword(requestBody, HttpContext.Request.Headers["Authorization"]);
@@ -85,14 +85,13 @@ namespace GuessMyPassBackend.Controllers
         // /user/options/username
         [HttpPut]
         [Route("options/username")]
-        public ActionResult UpdateUsername([FromBody] UserOptions requestBody)
+        public ActionResult UpdateUsername([FromBody] UserOptionsRequest requestBody)
         {
 
             string message = _userContext.UpdateUsername(requestBody, HttpContext.Request.Headers["Authorization"]);
 
             if (message == null || message.Equals("User with same username already exists"))
             {
-
                 return (message == null) ? BadRequest(new { error = "Wrong username" }) : StatusCode(409, new { message });
             }
 

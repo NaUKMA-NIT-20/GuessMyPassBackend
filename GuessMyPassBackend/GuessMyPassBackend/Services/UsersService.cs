@@ -48,7 +48,7 @@ namespace GuessMyPassBackend
         }
 
         // Check if user exists and return AuthedUser instance
-        public AuthedUser Login(string email, string password)
+        public AuthedUserResponse Login(string email, string password)
         {
             User returnUser;
             try
@@ -59,7 +59,7 @@ namespace GuessMyPassBackend
                 // Verify password from request and db
                 if (password == null || !BC.Verify(password, returnUser.Password)) throw new System.InvalidOperationException();
 
-                AuthedUser authedUser = new AuthedUser(returnUser);
+                AuthedUserResponse authedUser = new AuthedUserResponse(returnUser);
 
                 authedUser.Token = Helpers.generateJwtToken(returnUser.id, jwtSecret);
 
@@ -73,7 +73,7 @@ namespace GuessMyPassBackend
         }
 
         // Update user password
-        public string UpdatePassword(UserOptions requestBody, string tokenString)
+        public string UpdatePassword(UserOptionsRequest requestBody, string tokenString)
         {
             try
             {
@@ -104,7 +104,7 @@ namespace GuessMyPassBackend
         }
 
         // Update username
-        public string UpdateUsername(UserOptions requestBody, string tokenString)
+        public string UpdateUsername(UserOptionsRequest requestBody, string tokenString)
         {
             try
             {

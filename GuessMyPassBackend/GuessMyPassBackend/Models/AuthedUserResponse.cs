@@ -3,17 +3,17 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace GuessMyPassBackend.Models
 {
-    public class AuthedUser: User
+    public class AuthedUserResponse: User
     {
       
         [BsonElement("token")]
         public string Token { get; set; }
 
-        public AuthedUser()
+        public AuthedUserResponse()
         {
 
         }
-        public AuthedUser(User user) : base()
+        public AuthedUserResponse(User user) : base()
         {
             this.CreatedOn = user.CreatedOn;
             this.Email = user.Email;
