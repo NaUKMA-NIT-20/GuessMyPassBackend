@@ -11,7 +11,7 @@ These docs describe how to use the [GuessMyPass](https://guessmypass.herokuapp.c
 | `UserController` | `GET POST PUT` | /user |
 | `DataController` | `GET POST PUT DELETE` | /data |
 | `FolderController` | `GET POST PUT DELETE` | /folder |
-| `DataController` | `POST` | /update/key |
+| `KeyController` | `POST` | /update/key |
 
 -------------------
 ## UserController
