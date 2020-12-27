@@ -6,6 +6,12 @@ These docs describe how to use the [GuessMyPass](https://guessmypass.herokuapp.c
 
 ## Routes
 
+[UserController](#usercontroller)
+<br>
+[DataController](#datacontroller)
+<br>
+[KeyController](#keycontroller)
+
 | Controller | Methods | URI |
 | :--- | :--- | :--- |
 | `UserController` | `GET POST PUT` | /user |
